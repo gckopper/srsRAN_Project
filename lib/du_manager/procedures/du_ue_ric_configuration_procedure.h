@@ -41,12 +41,14 @@ public:
   void operator()(coro_context<async_task<du_mac_sched_control_config_response>>& ctx);
 
   const char* name() const { return "UE RIC configuration"; }
+protected:
+  srslog::basic_logger&           logger;
 
 private:
   manual_event<du_mac_sched_control_config_response>& dispatch_ue_config_task();
 
   // Task run from within the UE task loop.
-  async_task<mac_ue_reconfiguration_response> handle_mac_config();
+  async_task<mac_ue_reconfiguration_response> handle_mac_config(du_ue* test_ue);
 
   const du_mac_sched_control_config request;
   du_ue_manager_repository&         ue_mng;
