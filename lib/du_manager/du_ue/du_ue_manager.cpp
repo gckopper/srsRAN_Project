@@ -25,9 +25,11 @@
 #include "../procedures/ue_configuration_procedure.h"
 #include "../procedures/ue_creation_procedure.h"
 #include "../procedures/ue_deletion_procedure.h"
+#include "du_ue.h"
 #include "srsran/gtpu/gtpu_teid_pool_factory.h"
 #include "srsran/support/async/async_no_op_task.h"
 #include "srsran/support/async/execute_on.h"
+#include <vector>
 
 using namespace srsran;
 using namespace srs_du;
@@ -213,6 +215,17 @@ du_ue* du_ue_manager::find_ue(du_ue_index_t ue_index)
   srsran_assert(is_du_ue_index_valid(ue_index), "Invalid ue index={}", ue_index);
   return ue_db.contains(ue_index) ? &ue_db[ue_index] : nullptr;
 }
+
+std::vector<du_ue*> du_ue_manager::find_ues(const std::function<bool(const du_ue*)>& predicate) {
+    std::vector<du_ue*> result;
+    for (auto &ue : ue_db) {
+        if (predicate(&ue)) {
+            result.push_back(&ue);
+        }
+    }
+    return result;
+}
+
 const du_ue* du_ue_manager::find_ue(du_ue_index_t ue_index) const
 {
   srsran_assert(is_du_ue_index_valid(ue_index), "Invalid ue index={}", ue_index);
