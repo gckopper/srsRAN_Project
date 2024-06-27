@@ -97,15 +97,15 @@ e2sm_rc_control_action_2_6_du_executor::e2sm_rc_control_action_2_6_du_executor(d
   action_params.insert({1, "RRM Policy Ratio List"});
   action_params.insert({2, "RRM Policy Ratio Group"});
   action_params.insert({3, "RRM Policy"});
-  action_params.insert({4, "RRM Policy Member List"});
-  action_params.insert({5, "RRM Policy Member"});
-  action_params.insert({6, "PLMN Identity"});
-  action_params.insert({7, "S-NSSAI"});
-  action_params.insert({8, "SST"});
-  action_params.insert({9, "SD"});
-  action_params.insert({10, "Min PRB Policy Ratio"});
-  action_params.insert({11, "Max PRB Policy Ratio"});
-  action_params.insert({12, "Dedicated PRB Policy Ratio"});
+  action_params.insert({5, "RRM Policy Member List"});
+  action_params.insert({6, "RRM Policy Member"});
+  action_params.insert({7, "PLMN Identity"});
+  action_params.insert({8, "S-NSSAI"});
+  action_params.insert({9, "SST"});
+  action_params.insert({10, "SD"});
+  action_params.insert({11, "Min PRB Policy Ratio"});
+  action_params.insert({12, "Max PRB Policy Ratio"});
+  action_params.insert({13, "Dedicated PRB Policy Ratio"});
 };
 
 void e2sm_rc_control_action_2_6_du_executor::parse_action_ran_parameter_value(const ran_param_value_type_c& ran_param,
@@ -265,7 +265,7 @@ e2sm_ric_control_response e2sm_rc_control_action_2_6_du_executor::convert_to_e2s
   control_config_params req = du_config_req_.param_list[0];
   if (req.rrm_policy_group.has_value()) {
     e2sm_rc_ctrl_outcome_format1_item_s min_prb_outcome;
-    min_prb_outcome.ran_param_id = 10;
+    min_prb_outcome.ran_param_id = 11;
     if (req.rrm_policy_group.value().min_prb_policy_ratio.has_value()) {
       min_prb_outcome.ran_param_value.set_value_int() = req.rrm_policy_group.value().min_prb_policy_ratio.value();
       ctrl_outcome.ran_p_list.push_back(min_prb_outcome);
@@ -274,7 +274,7 @@ e2sm_ric_control_response e2sm_rc_control_action_2_6_du_executor::convert_to_e2s
 
   if (req.rrm_policy_group.has_value()) {
     e2sm_rc_ctrl_outcome_format1_item_s max_prb_outcome;
-    max_prb_outcome.ran_param_id = 11;
+    max_prb_outcome.ran_param_id = 12;
     if (req.rrm_policy_group.value().max_prb_policy_ratio.has_value()) {
       max_prb_outcome.ran_param_value.set_value_int() = req.rrm_policy_group.value().max_prb_policy_ratio.value();
       ctrl_outcome.ran_p_list.push_back(max_prb_outcome);
