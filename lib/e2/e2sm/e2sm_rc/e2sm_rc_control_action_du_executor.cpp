@@ -245,6 +245,13 @@ e2sm_rc_control_action_2_6_du_executor::convert_to_du_config_request(const e2sm_
       return {};
     }
   }
+  logger.info("Received RIC control request for slice level PRB quota. Min={} Max={} SST={} SD={} PLMID={} UEID={}", 
+          ctrl_config.param_list.back().rrm_policy_group->min_prb_policy_ratio.value_or(-1),
+          ctrl_config.param_list.back().rrm_policy_group->max_prb_policy_ratio.value_or(-1),
+          ctrl_config.param_list.back().rrm_policy_group->pol_member.s_nssai.sst,
+          ctrl_config.param_list.back().rrm_policy_group->pol_member.s_nssai.sd.value_or(-1),
+          ctrl_config.param_list.back().rrm_policy_group->pol_member.plmn_id,
+          ctrl_config.ue_id);
   return ctrl_config;
 }
 
