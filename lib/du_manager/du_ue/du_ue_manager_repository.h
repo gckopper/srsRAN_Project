@@ -47,6 +47,7 @@ public:
   /// \brief Find UE context based on DU UE index.
   virtual du_ue*       find_ue(du_ue_index_t ue_index)       = 0;
   virtual const du_ue* find_ue(du_ue_index_t ue_index) const = 0;
+  virtual std::vector<du_ue*> find_ues(const std::function<bool(const du_ue*)>& predicate) = 0;
 
   /// \brief Find UE context based on UE RNTI.
   virtual du_ue* find_rnti(rnti_t rnti) = 0;
