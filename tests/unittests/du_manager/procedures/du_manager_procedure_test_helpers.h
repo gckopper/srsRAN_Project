@@ -26,6 +26,7 @@
 #include "lib/du_manager/du_ue/du_ue.h"
 #include "lib/du_manager/du_ue/du_ue_manager_repository.h"
 #include "srsran/support/async/fifo_async_task_scheduler.h"
+#include <vector>
 
 namespace srsran {
 namespace srs_du {
@@ -101,6 +102,9 @@ public:
       }
     }
     return nullptr;
+  }
+  std::vector<du_ue*> find_ues(const std::function<bool(const du_ue*)> &predicate) override {
+    return {};
   }
   gtpu_teid_pool& get_f1u_teid_pool() override { return teid_pool; }
 
