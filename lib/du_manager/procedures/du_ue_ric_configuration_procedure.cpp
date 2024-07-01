@@ -123,18 +123,10 @@ async_task<mac_ue_reconfiguration_response> du_ue_ric_configuration_procedure::h
   res_alloc_cfg.rrm_policy_group = req.rrm_policy_group.has_value() ? req.rrm_policy_group.value() : dummy;
   // TODO remove when RRM group support is added to scheduler.
   res_alloc_cfg.pdsch_grant_size_limits = {
-      req.rrm_policy_group.has_value() ? (req.rrm_policy_group.value().min_prb_policy_ratio.has_value()
-                                              ? req.rrm_policy_group.value().min_prb_policy_ratio.value()
-                                              : 0)
-                                       : 0,
-      req.rrm_policy_group.has_value() ? (req.rrm_policy_group.value().max_prb_policy_ratio.has_value()
-                                              ? req.rrm_policy_group.value().max_prb_policy_ratio.value()
-                                              : MAX_NOF_PRBS)
-                                       : MAX_NOF_PRBS};
+      req.rrm_policy_group.value_or(dummy).min_prb_policy_ratio.value_or(0),
+      req.rrm_policy_group.value_or(dummy).max_prb_policy_ratio.value_or(MAX_NOF_PRBS)};
 
-  res_alloc_cfg.max_pdsch_harq_retxs = req.num_harq_retransmissions.has_value()
-                                           ? req.num_harq_retransmissions.value()
-                                           : du_params.mac.sched_cfg.ue.max_nof_harq_retxs;
+  res_alloc_cfg.max_pdsch_harq_retxs = req.num_harq_retransmissions.value_or(du_params.mac.sched_cfg.ue.max_nof_harq_retxs);
   res_alloc_cfg.max_pusch_harq_retxs = res_alloc_cfg.max_pdsch_harq_retxs;
   logger.info("Setting the PRBs for {} as [{}, {}]",
               mac_request.crnti,
